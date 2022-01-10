@@ -27,9 +27,9 @@ func GetRoutes(r *gin.Engine) *gin.Engine {
 	r.GET("animal/", animal.ApiIndexHandler) //info about api
 	r.GET("animal/new/", animal.ApiNewHandler) // return json-template
 	r.GET("animal/show/:id", animal.ApiShowHandler) // retunt json about Animal
-	r.POST("animal/", animal.ApiCreateHandler) //
-	r.POST("animal/update/:id", animal.ApiUpdateHandler)
-	r.GET("animal/delete/:id", animal.ApiDeleteHandler)
+	r.POST("animal/", animal.ApiCreateHandler) // return json with uri for new animal record
+	r.POST("animal/update/:id", animal.ApiUpdateHandler) // return json with updaed uri item
+	r.GET("animal/delete/:id", animal.ApiDeleteHandler) // return json with ok and empty data
 
 	return r
 }

@@ -44,7 +44,7 @@ func ApiShowHandler(c *gin.Context) {
 
 	// Check if resource exist
 	if animal.Id == 0 {
-		c.JSON(http.StatusNotFound,gin.H{"ok": false, "data": ""})
+		c.JSON(http.StatusNotFound, gin.H{"ok": false, "data": "No data found"})
 		return
 	}
 
@@ -78,7 +78,7 @@ func ApiCreateHandler(c *gin.Context) {
 	animal = model.FindById(id)
 	// Check if resource exist
 	if animal.Id == 0 {
-		c.JSON(http.StatusNotFound, gin.H{"ok": false, "data": ""})
+		c.JSON(http.StatusNotFound, gin.H{"ok": false, "data": "No data found"})
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
@@ -92,27 +92,28 @@ func ApiUpdateHandler(c *gin.Context) {
 	var animal model.Animal
 
 	// App level validation
-	bindErr := c.ShouldBind(&animal)
-	if bindErr != nil {
-		animal.Error = bindErr
-		c.HTML(http.StatusOK, "animal/edit.tmpl", animal)
+	err := c.ShouldBindJSON(&animal)
+	if err != nil {
+		c.JSON(http.StatusNotFound, gin.H{"ok": false, "data": err.Error()})
 		return
 	}
 
 	foundAnimal:= model.FindById(id)
 	// Check if resource exist
 	if foundAnimal.Id == 0 {
-		c.HTML(http.StatusNotFound, "common/not_found.tmpl", gin.H{})
+		c.JSON(http.StatusNotFound, gin.H{"ok": false, "data": "Absent data"})
 	}
 
 	// Updating data
 	animal, updateErr := model.Put(foundAnimal.Id, animal)
 	if updateErr != nil {
-		c.HTML(http.StatusInternalServerError, "common/internal_error.tmpl", gin.H{})
+		c.JSON(http.StatusInternalServerError, gin.H{"ok": false, "data": updateErr.Error()})
 		util.PanicError(updateErr)
-	} else {
-		c.Redirect(http.StatusFound, "/animal/show/"+strconv.FormatInt(id, 10))
-	}
+	} 
+	c.JSON(http.StatusOK, gin.H{
+		"ok":true,
+		"data":"/animal/show/" + strconv.FormatInt(animal.Id, 10),
+	})
 }
 
 func ApiDeleteHandler(c *gin.Context) {
@@ -121,15 +122,17 @@ func ApiDeleteHandler(c *gin.Context) {
 
 	// Check if resource exist
 	if animal.Id == 0 {
-		c.HTML(http.StatusNotFound, "common/not_found.tmpl", gin.H{})
+		c.JSON(http.StatusNotFound,gin.H{"ok": false, "data": "already absent data"})
 		return
 	}
 
 	err := model.Delete(animal)
 	if err != nil {
-		c.HTML(http.StatusInternalServerError, "common/internal_error.tmpl", gin.H{})
+		c.JSON(http.StatusInternalServerError, gin.H{"ok": false, "data": err.Error()})
 		return
-	} else {
-		c.Redirect(http.StatusFound, "/animal/")
 	}
+	c.JSON(http.StatusOK, gin.H{
+		"ok":true,
+		"data":"",
+	})
 }
