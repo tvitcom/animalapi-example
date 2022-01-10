@@ -32,8 +32,6 @@ func ApiIndexHandler(c *gin.Context) {
 	m["animals"] = animals
 	m["pagination"] = pagination
 
-	// c.JSON(http.StatusOK, "animal/index.tmpl", m)
-
 	c.JSON(http.StatusOK, gin.H{
 		"ok":true,
 		"data": m,

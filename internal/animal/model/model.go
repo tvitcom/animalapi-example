@@ -1,6 +1,9 @@
 package model
 
 import (
+	"os"
+	"fmt"
+	"database/sql"
 	_ "github.com/mattn/go-sqlite3"
 	"github.com/tvitcom/animalapi-example/pkg/util"
 )
@@ -19,20 +22,30 @@ type Animal struct {
 func IndexWithPage(limit int64, offset int64) []Animal {
 	db := util.GetDbConn()
 	defer db.Close()
-
-	query := "SELECT id, kind, name, dob, owner FROM animal LIMIT $1 OFFSET $2"
-	rows, err := db.Query(query, limit, offset)
+	query := "SELECT id, kind, name, dob, owner FROM animal LIMIT $1, $2"
+	rows, err := db.Query(query, offset, limit)
 	defer rows.Close()
 	util.PanicError(err)
 
 	var items []Animal
 	for rows.Next() {
-		var sl Animal
-
-		err = rows.Scan(&sl.Id, &sl.Name, &sl.Dob, &sl.Owner)
-		items = append(items, sl)
+		item := Animal{}
+		err = rows.Scan(&item.Id, &item.Kind, &item.Name, &item.Dob, &item.Owner)
+		if err != nil {
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+		}
+		items = append(items, item)
 	}
-
+	switch err {
+		case sql.ErrNoRows:
+			return []Animal{}
+		case nil:
+			return items
+		default:
+			fmt.Fprintf(os.Stderr, "%s\n", err)
+			os.Exit(1)
+	}
 	return items
 }
 
