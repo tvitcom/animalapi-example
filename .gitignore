@@ -6,3 +6,4 @@ go.sum*
 /data/*
 !/data/db_init_sqlite.sql
 
+apidb.sqlite3
