@@ -1,0 +1,10 @@
+{{ define "animal/show.tmpl" }}
+<p>Kind: {{ .Kind }}</p>
+<p>Birth: {{ .Dob }}</p>
+<p>Name: {{ .Name }} 
+   with Owner: <b>{{ .Owner }}</b></p>
+
+<a href="/animal">List</a>
+<a href="/animal/edit/{{ .Id }}">Edit</a>
+<a href="/animal/delete/{{ .Id }}">Delete</a>
+{{ end }}

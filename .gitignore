@@ -1,0 +1,8 @@
+go.sum*
+*~
+*.*~
+
+# Privates
+/data/*
+!/data/db_init_sqlite.sql
+

@@ -1,0 +1,29 @@
+{{ define "animal/new.tmpl" }}
+    <h1>New Animals List</h1>
+
+    {{ if .Error }}
+        <div>Error</div>
+        <div>{{ .Error }}</div>
+    {{ end }}
+    <p>
+    <a href="/animal">Back</a>
+    </p>
+    <form action="/animal" method="post" name="animal-new">
+        <label for="kind">Name:</label><br>
+        <input type="text" id="kind" name="kind" value={{ .Kind }}><br>
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value={{ .Name }}><br>
+
+        <label for="dob">Birth:</label><br>
+        <input type="number" id="dob" name="dob" value={{ .Dob }}><br>
+        
+        <label for="owner">Owner:</label><br>
+        <input type="text" id="owner" name="owner" value={{ .Owner }}><br>
+        <br>
+
+        <input type="reset" value="Clean">
+        <input type="submit" value="Save">
+    </form>
+
+{{ end }}

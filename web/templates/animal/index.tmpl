@@ -1,0 +1,26 @@
+{{ define "animal/index.tmpl" }}
+    <div>Animal List</div>
+    <table>
+        <tr>
+            <th>Kind</th>
+            <th>Name</th>
+            <th>Date of birth</th>
+            <th>Owner</th>
+            <th>[actions]</th>
+        </tr>
+        {{ range .animals }}
+            <tr>
+                <td>{{ .Kind }}</td>
+                <td>{{ .Name }}</td>
+                <td>{{ .Dob }}</td>
+                <td>{{ .Owner }}</td>
+                <td><a href="/animal/show/{{.Id}}">Detail</a></td>
+            </tr>
+        {{ end }}
+    </table>
+
+    <br/>
+    <div><a href="/animal/new">New</a></div>
+
+    {{ template "common/pagination.tmpl" .pagination }}
+{{ end }}

@@ -1,0 +1,28 @@
+{{ define "animal/edit.tmpl" }}
+    <h1>New Animal record</h1>
+
+    {{ if .Error }}
+        <div>Error</div>
+        <div>{{ .Error }}</div>
+    {{ end }}
+    <p>
+    <a href="/animal">Back</a>
+    </p>
+    <form action="/animal/update/{{ .Id }}" method="post" name="animal-update">
+        <label for="kind">Kind:</label><br>
+        <input type="text" id="kind" name="kind" value={{ .Kind }}><br>
+
+        <label for="name">Name:</label><br>
+        <input type="text" id="name" name="name" value={{ .Name }}><br>
+
+        <label for="dob">Date of birth(like 19991231):</label><br>
+        <input type="number" id="dob" name="dob" value={{ .Dob }}><br>
+        
+        <label for="owner">Owner:</label><br>
+        <input type="text" id="owner" name="owner" value={{ .Owner }}><br>
+        <br>
+        <input type="reset" value="Clear">
+        <input type="submit" value="Save">
+    </form>
+
+{{ end }}
