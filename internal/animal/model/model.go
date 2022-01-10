@@ -81,7 +81,7 @@ func Put(id int64, item Animal) (Animal, error) {
 	db := util.GetDbConn()
 	defer db.Close()
 
-	query := "UPDATE animal SET kind = $1, name = $1, dob = $2, owner = $3 WHERE id = $4"
+	query := "UPDATE animal SET kind = $1, name = $2, dob = $3, owner = $4 WHERE id = $5"
 	stmt, stmtErr := db.Prepare(query)
 	util.PanicError(stmtErr)
 

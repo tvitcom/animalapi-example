@@ -10,13 +10,13 @@ import (
 
 func ShowHandler(c *gin.Context) {
 	id := util.GetInt64IdFromReqContext(c)
-	shoppingList:= model.FindById(id)
+	item := model.FindById(id)
 
 	// Check if resource exist
-	if shoppingList.Id == 0 {
+	if item.Id == 0 {
 		c.HTML(http.StatusNotFound, "common/not_found.tmpl", gin.H{})
 	} else {
-		c.HTML(http.StatusOK, "animal/show.tmpl", shoppingList)
+		c.HTML(http.StatusOK, "animal/show.tmpl", item)
 	}
 }
 
