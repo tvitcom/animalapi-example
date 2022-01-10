@@ -9,11 +9,11 @@ import (
 // The DOB - as integer like yyyymmdd: 19991231
 type Animal struct {
 	Id    int64  `json:"id"`
-	Kind  string `json:"kind" form:"kind" binding:"required"`
-	Name  string `json:"name" form:"name" binding:"required"`
-	Dob   int    `json:"dob" form:"dob" binding:"gte=19991231"`
-	Owner string `json:"owner" form:"owner" binding:"required"`
-	Error error
+	Kind  string `json:"kind" form:"kind" json:"kind" xml:"kind" binding:"required"`
+	Name  string `json:"name" form:"name" json:"name" xml:"name" binding:"required"`
+	Dob   int    `json:"dob" form:"dob" json:"dob" xml:"dob" binding:"gte=19991231"`
+	Owner string `json:"owner" form:"owner" json:"owner" xml:"owner" binding:"required"`
+	Error error  `form: "error"`
 }
 
 func IndexWithPage(limit int64, offset int64) []Animal {
